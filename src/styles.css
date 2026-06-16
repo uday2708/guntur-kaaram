@@ -2,6 +2,16 @@
 @source "../src";
 @import "tw-animate-css";
 
+@theme {
+  --color-brand-primary: #D94B2B;
+  --color-brand-gold: #F4C542;
+  --color-brand-dark: #111111;
+  --color-brand-surface: #1A1A1A;
+  --color-brand-cream: #FFF5D6;
+  --font-display: "Cinzel", "Playfair Display", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 /*

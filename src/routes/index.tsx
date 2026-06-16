@@ -1,29 +1,50 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Intro } from "@/components/Intro";
+import { Hero } from "@/components/Hero";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Guntur Kaaram — Telugu Kitchen | Fine Andhra Dining" },
+      {
+        name: "description",
+        content:
+          "Guntur Kaaram Telugu Kitchen — an immersive fine-dining journey through the fiery spices and ancestral recipes of Andhra cuisine.",
+      },
+      { property: "og:title", content: "Guntur Kaaram — Telugu Kitchen" },
+      {
+        property: "og:description",
+        content: "Heat of Guntur. Soul of Andhra. Premium Telugu fine dining.",
+      },
+      { property: "og:image", content: "/images/food/biryani.jpg" },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [showIntro, setShowIntro] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const visited = typeof window !== "undefined" && localStorage.getItem("gk_intro_seen");
+    setShowIntro(!visited);
+    setReady(true);
+  }, []);
+
+  const finish = () => {
+    localStorage.setItem("gk_intro_seen", "1");
+    setShowIntro(false);
+  };
+
+  if (!ready) return <div className="min-h-screen bg-brand-dark" />;
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      <Hero />
+      <AnimatePresence>{showIntro && <Intro onDone={finish} />}</AnimatePresence>
+    </>
   );
 }
